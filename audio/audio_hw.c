@@ -17,7 +17,7 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-//#define LOG_NDEBUG 1
+#define LOG_NDEBUG 1
 
 #include <errno.h>
 #include <pthread.h>
@@ -41,7 +41,7 @@
 #define MIXER_PCM_PLAYBACK_VOLUME "Digital Playback Volume"
 #define MIXER_PCM_CAPTURE_VOLUME "Digital Capture Volume"
 
-#define MIXER_SPEAKER_PLAYBACK_VOLUME "Line Out Volume"
+#define MIXER_SPEAKER_PLAYBACK_VOLUME "Speaker Volume"
 #define MIXER_SPEAKER_PLAYBACK_SWITCH "Speaker Switch"
 
 #define MIXER_HEADSET_PLAYBACK_VOLUME "Headphone Volume"
@@ -69,7 +69,7 @@
 #define PERC_TO_HEADSET_VOLUME(x) ( (int)((x) * 63 ))
 #define PERC_TO_SPEAKER_VOLUME(x) ( (int)((x) * 63 ))
 
-#define OUT_PERIOD_SIZE 880
+#define OUT_PERIOD_SIZE 1520
 #define OUT_SHORT_PERIOD_COUNT 2
 #define OUT_LONG_PERIOD_COUNT 8
 #define OUT_SAMPLING_RATE 44100
@@ -135,15 +135,15 @@ struct route_setting defaults[] = {
     /* general */
     {
 	.ctl_name = MIXER_PCM_PLAYBACK_VOLUME,
-	.intval = PERC_TO_PCM_VOLUME(0.8),
+	.intval = PERC_TO_PCM_VOLUME(120),
     },
     {
 	.ctl_name = MIXER_PCM_CAPTURE_VOLUME,
-	.intval = PERC_TO_CAPTURE_VOLUME(0.8),
+	.intval = PERC_TO_CAPTURE_VOLUME(96),
     },
     {
 	.ctl_name = MIXER_SPEAKER_PLAYBACK_VOLUME,
-	.intval = PERC_TO_SPEAKER_VOLUME(1),
+	.intval = PERC_TO_SPEAKER_VOLUME(63),
     },
     {
 	.ctl_name = MIXER_SPEAKER_PLAYBACK_SWITCH,
@@ -151,7 +151,7 @@ struct route_setting defaults[] = {
     },
     {
 	.ctl_name = MIXER_HEADSET_PLAYBACK_VOLUME,
-	.intval = PERC_TO_HEADSET_VOLUME(1),
+	.intval = PERC_TO_HEADSET_VOLUME(63),
     },
     {
 	.ctl_name = MIXER_HEADSET_PLAYBACK_SWITCH,
@@ -179,7 +179,7 @@ struct route_setting defaults[] = {
     },
     {
 	.ctl_name = MIXER_MICL_CAPTURE_MUX,
-	.strval = "Right",
+	.strval = "Left",
     },
     {
 	.ctl_name = NULL,
@@ -527,14 +527,14 @@ static size_t out_get_buffer_size(const struct audio_stream *stream)
 static uint32_t out_get_channels(const struct audio_stream *stream)
 {
     struct stream_out *out = (struct stream_out *)stream;
-	//ALOGV("out_get_channels");
+	ALOGV("out_get_channels");
 	return AUDIO_CHANNEL_OUT_STEREO;
 }
 
 /* xface */
 static audio_format_t out_get_format(const struct audio_stream *stream)
 {
-	//ALOGV("out_get_format");
+	ALOGV("out_get_format");
     return AUDIO_FORMAT_PCM_16_BIT;
 }
 
@@ -814,7 +814,7 @@ static int out_remove_audio_effect(const struct audio_stream *stream, effect_han
 static int out_get_next_write_timestamp(const struct audio_stream_out *stream,
                                         int64_t *timestamp)
 {
-	//ALOGV("out_get_next_write_timestamp");
+	ALOGV("out_get_next_write_timestamp");
     return -EINVAL;
 }
 
@@ -824,7 +824,7 @@ static int out_get_next_write_timestamp(const struct audio_stream_out *stream,
 static uint32_t in_get_sample_rate(const struct audio_stream *stream)
 {
     struct stream_in *in = (struct stream_in *)stream;
-	//ALOGD("in_get_sample_rate");
+	ALOGD("in_get_sample_rate");
     return in->pcm_config.rate >> in->subsample_shift;
 }
 
@@ -863,7 +863,7 @@ static uint32_t in_get_channels(const struct audio_stream *stream)
 /* xface */
 static audio_format_t in_get_format(const struct audio_stream *stream)
 {
-	//ALOGD("in_get_format");
+	ALOGD("in_get_format");
     return AUDIO_FORMAT_PCM_16_BIT;
 }
 
@@ -981,7 +981,7 @@ static ssize_t in_read(struct audio_stream_in *stream, void* buffer,
 	
 	int16_t* in_buffer = (int16_t*)buffer;
 
-	//ALOGD("in_read: bytes:%d",bytes);
+	ALOGD("in_read: bytes:%d",bytes);
 	
     /*
      * acquiring hw device mutex systematically is useful if a low
@@ -1063,7 +1063,7 @@ static ssize_t in_read(struct audio_stream_in *stream, void* buffer,
 					} while (--frames_to_do);
 			}
 		}
-			//ALOGD("done...");
+			ALOGD("done...");
 
 		} while (--chunkstodo);
 	
@@ -1609,7 +1609,7 @@ struct audio_module HAL_MODULE_INFO_SYM = {
         .module_api_version = AUDIO_MODULE_API_VERSION_0_1,
         .hal_api_version = HARDWARE_HAL_API_VERSION,
         .id = AUDIO_HARDWARE_MODULE_ID,
-        .name = "Shuttle audio HW HAL",
+        .name = "Streak7 audio HW HAL",
         .author = "The Android Open Source Project",
         .methods = &hal_module_methods,
     },

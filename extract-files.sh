@@ -10,7 +10,7 @@ DIR=`dirname $FILE`
 		mkdir -p $BASE/$DIR
     fi
 #adb pull $DEVICE/$FILE $BASE/$FILE
-cp -v ~/streak7_system/$FILE $BASE/$FILE
+cp -v ~/streak_ics/$FILE $BASE/$FILE
 done
 
 ./setup-makefiles.sh
