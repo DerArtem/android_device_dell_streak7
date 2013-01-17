@@ -78,7 +78,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     liba2dp \
     libasound \
-    tinyalsa \
+    libtinyalsa \
     libpkip \
     tinyplay \
     tinycap \
