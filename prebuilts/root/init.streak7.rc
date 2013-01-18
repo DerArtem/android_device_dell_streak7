@@ -5,12 +5,13 @@ on early-init
 
     export EXTERNAL_STORAGE /storage/sdcard0
     mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
+    mkdir /storage/sdcard0 0555 system system
+
     symlink /storage/sdcard0 /sdcard
     symlink /stroage/sdcard0 /mnt/sdcard
 
     export SECONDARY_STORAGE /storage/sdcard1
-    mkdir /storage/sdcard1 0000 system system
+    mkdir /storage/sdcard1 0050 system system
     symlink /storage/sdcard1 /mnt/external_sd
 
 #    export EXTERNAL_STORAGE /mnt/sdcard
@@ -55,7 +56,7 @@ on post-fs-data
     mkdir /data/misc/pmlog 0770
     chown dhcp dhcp /data/misc/dhcp
 
-    # we will remap this as /mnt/sdcard with the sdcard fuse tool
+    # we will remap this as /storage/sdcard0 with the sdcard fuse tool
     mkdir /data/media 0770 media_rw media_rw
     chown media_rw media_rw /data/media
 

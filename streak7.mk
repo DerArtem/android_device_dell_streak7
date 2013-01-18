@@ -68,6 +68,7 @@ PRODUCT_PACKAGES += \
     audio.a2dp.default \
     audio.usb.default \
     setup_fs \
+    Gallery2 \
     libinvensense_mpl \
     libaudioutils \
     make_ext4fs \
