@@ -11,3 +11,8 @@ sys.usb.config=mtp,adb
 ro.emmc.sdcard.partition=15
 persist.fuse_sdcard=false
 ro.secure=0
+
+#Support IPv4
+persist.telephony.support.ipv4=1
+#Disable IPv6
+persist.telephony.support.ipv6=0
