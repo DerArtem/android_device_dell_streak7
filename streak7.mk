@@ -23,8 +23,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
     frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
@@ -47,6 +45,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     lights.streak7 \
     sensors.streak7 \
+    power.streak7 \
     com.android.future.usb.accessory \
     libinvensense_mpl \
     drmserver \
@@ -56,7 +55,7 @@ PRODUCT_PACKAGES += \
 #File System
 PRODUCT_PACKAGES += \
     setup_fs \
-    make_ext4fs \
+    make_ext4fs
 
 PRODUCT_PACKAGES += \
     libpkip \
@@ -89,12 +88,15 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_CHARACTERISTICS := tablet
 
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	ro.secure=0 \
-	persist.sys.strictmode.visual=0
+# override
+PRODUCT_PROPERTY_OVERRIDES := \
+    ro.wifi.country=US \
+    ro.carrier=wifi-only \
+    ro.opengles.version=131072 \
+    dalvik.vm.dexopt-data-only=1 \
+    persist.sys.usb.config=mtp,adb \
+    wifi.supplicant_scan_interval=180
 
-ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
-ADDITIONAL_DEFAULT_PROPERTIES += persist.sys.strictmode.visual=0
 
 DEVICE_PACKAGE_OVERLAYS := device/dell/streak7/overlay
-$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
